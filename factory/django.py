@@ -8,6 +8,7 @@ import functools
 import io
 import logging
 import os
+from typing import TypeVar
 import warnings
 
 from django.contrib.auth.hashers import make_password
@@ -20,7 +21,7 @@ logger = logging.getLogger('factory.generate')
 
 
 DEFAULT_DB_ALIAS = 'default'  # Same as django.db.DEFAULT_DB_ALIAS
-
+T = TypeVar("T")
 
 _LAZY_LOADS = {}
 
@@ -72,7 +73,7 @@ class DjangoOptions(base.FactoryOptions):
         return self.model
 
 
-class DjangoModelFactory(base.Factory):
+class DjangoModelFactory(base.Factory[T]):
     """Factory for Django models.
 
     This makes sure that the 'sequence' field of created objects is a new id.
