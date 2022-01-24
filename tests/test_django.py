@@ -43,7 +43,7 @@ def tearDownModule():
     django_test_utils.teardown_test_environment()
 
 
-class StandardFactory(factory.django.DjangoModelFactory):
+class StandardFactory(factory.django.DjangoModelFactory[models.StandardModel]):
     class Meta:
         model = models.StandardModel
 
@@ -178,6 +178,13 @@ class DjangoPkSequenceTestCase(django_test.TestCase):
         std2 = StandardFactory.build()
         self.assertEqual('foo0', std1.foo)
         self.assertEqual('foo1', std2.foo)
+
+    def test_typing(self):
+        # This isn't really a test, it is here to verify that typing works as expected
+        # All this should be the same type (StandardModel) in your type checker.
+        std1 = StandardFactory()
+        std2 = StandardFactory.create()
+        std3 = StandardFactory.build()
 
     def test_pk_creation(self):
         std1 = StandardFactory.create()
