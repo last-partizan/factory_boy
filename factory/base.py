@@ -28,7 +28,7 @@ def resolve_attribute(name, bases, default=None):
     return default
 
 
-class FactoryMetaClass(type):
+class FactoryMetaClass(Generic[T], type):
     """Factory metaclass for handling ordered declarations."""
 
     def __call__(cls, **kwargs):
@@ -47,7 +47,7 @@ class FactoryMetaClass(type):
             raise errors.UnknownStrategy('Unknown Meta.strategy: {}'.format(
                 cls._meta.strategy))
 
-    def __new__(mcs, class_name, bases, attrs):
+    def __new__(mcs, class_name, bases, attrs) -> T:
         """Record attributes as a pattern for later instance construction.
 
         This is called when a new Factory subclass is defined; it will collect
@@ -415,7 +415,7 @@ class BaseFactory(Generic[T]):
     UnknownStrategy = errors.UnknownStrategy
     UnsupportedStrategy = errors.UnsupportedStrategy
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs) -> T:
         """Would be called if trying to instantiate the class."""
         raise errors.FactoryError('You cannot instantiate BaseFactory')
 
