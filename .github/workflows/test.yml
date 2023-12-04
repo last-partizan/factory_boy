@@ -24,7 +24,8 @@ jobs:
           - "3.12"
           - "pypy-3.8"
           - "pypy-3.9"
-        database-type:
+        environment:
+          - "typecheck"
           - "sqlite"
           - "postgres"
 
@@ -56,4 +57,4 @@ jobs:
       - name: Run tests
         run: tox
         env:
-          DATABASE_TYPE: ${{ matrix.database-type }}
+          ENVIRONMENT: ${{ matrix.environment }}
